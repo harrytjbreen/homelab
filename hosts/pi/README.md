@@ -144,7 +144,7 @@ Repository layout:
 homelab/
 ├── apps/
 ├── hosts/
-│   └── pi-server/
+│   └── pi/
 ├── docs/
 └── scripts/
 ```
@@ -155,7 +155,7 @@ homelab/
 
 Containers for this host are defined in:
 
-`hosts/pi-server/docker-compose.yml`
+`hosts/pi/docker-compose.yml`
 
 Start services:
 
