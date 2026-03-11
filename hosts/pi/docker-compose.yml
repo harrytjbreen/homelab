@@ -27,7 +27,7 @@ services:
       - TZ=${TZ}
     labels:
       - traefik.enable=true
-      - traefik.http.routers.kuma.rule=Host(`kuma.local`)
+      - traefik.http.routers.kuma.rule=Host(`kuma.home`)
       - traefik.http.routers.kuma.entrypoints=web
       - traefik.http.services.kuma.loadbalancer.server.port=3001
 
@@ -46,7 +46,7 @@ services:
       - TZ=${TZ}
     labels:
       - traefik.enable=true
-      - traefik.http.routers.prometheus.rule=Host(`prometheus.local`)
+      - traefik.http.routers.prometheus.rule=Host(`prometheus.home`)
       - traefik.http.routers.prometheus.entrypoints=web
       - traefik.http.services.prometheus.loadbalancer.server.port=9090
 
@@ -63,7 +63,7 @@ services:
       - GF_USERS_ALLOW_SIGN_UP=false
     labels:
       - traefik.enable=true
-      - traefik.http.routers.grafana.rule=Host(`grafana.local`)
+      - traefik.http.routers.grafana.rule=Host(`grafana.home`)
       - traefik.http.routers.grafana.entrypoints=web
       - traefik.http.services.grafana.loadbalancer.server.port=3000
 
