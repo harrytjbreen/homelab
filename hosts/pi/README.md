@@ -94,43 +94,9 @@ Example:
 
 # System Configuration
 
-## Update the system
+## Clone the repository
 
-Run:
-
-`sudo apt update`
-
-Then:
-
-`sudo apt upgrade -y`
-
----
-
-## Install base tooling
-
-Run:
-
-`sudo apt install -y git docker.io docker-compose curl htop tmux vim`
-
----
-
-## Allow the user to run Docker
-
-Run:
-
-`sudo usermod -aG docker harry`
-
-Log out and log back in.
-
-Test Docker:
-
-`docker run hello-world`
-
----
-
-# Homelab Repository Setup
-
-Clone the repository:
+Clone the homelab repository:
 
 `git clone <repo-url> ~/homelab`
 
@@ -140,7 +106,7 @@ Then:
 
 Repository layout:
 
-```
+```text
 homelab/
 ├── apps/
 ├── hosts/
@@ -151,11 +117,55 @@ homelab/
 
 ---
 
+## Run the setup script
+
+The initial machine bootstrap is handled by the host setup script.
+
+Move into the host directory:
+
+`cd ~/homelab/hosts/pi`
+
+Make the script executable:
+
+`chmod +x setup.sh`
+
+Run it:
+
+`./setup.sh`
+
+This script is responsible for:
+
+- updating the system
+- installing base packages
+- installing Docker and Docker Compose
+- enabling Docker to start on boot
+- creating required data directories
+- setting required permissions for container volumes
+- writing the host `.env` file if needed
+
+---
+
+## Re-login after setup
+
+The setup script adds the `harry` user to the `docker` group.
+
+Log out and log back in before using Docker without `sudo`.
+
+Test Docker:
+
+`docker run hello-world`
+
+---
+
 # Deployment
 
 Containers for this host are defined in:
 
 `hosts/pi/docker-compose.yml`
+
+Move into the host directory:
+
+`cd ~/homelab/hosts/pi`
 
 Start services:
 
@@ -173,7 +183,7 @@ Pull the latest infrastructure configuration:
 
 `git pull`
 
-Redeploy containers:
+Then from `hosts/pi` redeploy containers:
 
 `docker compose up -d`
 
@@ -187,11 +197,11 @@ Persistent container data is stored in:
 
 Example layout:
 
-```
+```text
 data/
 ├── uptime-kuma
-├── grafana
-└── traefik
+├── prometheus
+└── grafana
 ```
 
 ---
@@ -202,11 +212,33 @@ If the Pi needs to be rebuilt:
 
 1. Flash Raspberry Pi OS Lite
 2. Enable SSH
-3. Install Docker
-4. Clone the homelab repository
-5. Run:
-
-`docker compose up -d`
+3. Clone the homelab repository
+4. Move to `~/homelab/hosts/pi`
+5. Run `chmod +x setup.sh`
+6. Run `./setup.sh`
+7. Log out and back in
+8. Run `docker compose up -d`
 
 All services should automatically redeploy.
 
+---
+
+# Planned Services
+
+The following services are expected to run on this node:
+
+- uptime-kuma (monitoring)
+- prometheus (metrics collection)
+- grafana (dashboards)
+- node-exporter (host metrics)
+
+Additional services will be added as the homelab grows.
+
+---
+
+# Future Improvements
+
+- migrate OS to USB SSD
+- assign static IP
+- automated deployment from GitHub
+- centralised monitoring across all hosts
