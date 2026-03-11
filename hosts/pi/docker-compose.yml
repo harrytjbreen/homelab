@@ -83,7 +83,7 @@ services:
     ports:
       - "53:53/tcp"
       - "53:53/udp"
-      - "3000:3000/tcp"
+      - "3002:3002/tcp"
     volumes:
       - ${DATA_DIR}/adguard/work:/opt/adguardhome/work
       - ${DATA_DIR}/adguard/conf:/opt/adguardhome/conf
