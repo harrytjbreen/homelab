@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: ping-api
-          image: ping-api:local
-          imagePullPolicy: IfNotPresent
+          image: ghcr.io/harrytjbreen/ping-api
+          imagePullPolicy: Always
           env:
             - name: PING_API_ADDR
               value: ":8080"

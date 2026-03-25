@@ -1,0 +1,36 @@
+name: Go build
+description: Build a Go app (optional tests) using a shared composite action.
+inputs:
+  workdir:
+    description: Directory containing the Go module.
+    required: true
+  go-version-file:
+    description: Path to go.mod for version resolution.
+    required: true
+  run-tests:
+    description: Whether to run go test before build.
+    required: false
+    default: "true"
+  build-output:
+    description: Output path for the built binary (relative to workdir).
+    required: false
+    default: "bin/app"
+runs:
+  using: composite
+  steps:
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version-file: ${{ inputs.go-version-file }}
+        cache: true
+        cache-dependency-path: ${{ inputs.workdir }}/go.sum
+
+    - name: Test and build
+      shell: bash
+      run: |
+        set -euo pipefail
+        cd "${{ inputs.workdir }}"
+        if [ "${{ inputs.run-tests }}" = "true" ]; then
+          go test ./...
+        fi
+        go build -o "${{ inputs.build-output }}" .
