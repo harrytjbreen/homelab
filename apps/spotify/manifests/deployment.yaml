@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spotify
+  namespace: spotify
+  labels:
+    app: spotify
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spotify
+  template:
+    metadata:
+      labels:
+        app: spotify
+    spec:
+      containers:
+        - name: spotify
+          image: ghcr.io/harrytjbreen/spotify:latest
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: spotify-env
+          ports:
+            - name: http
+              containerPort: 8080

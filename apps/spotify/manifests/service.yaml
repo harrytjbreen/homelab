@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: spotify
+  namespace: spotify
+  labels:
+    app: spotify
+spec:
+  type: ClusterIP
+  selector:
+    app: spotify
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

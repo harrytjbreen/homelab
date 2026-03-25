@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: spotify
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/harrytjbreen/homelab.git
+    targetRevision: main
+    path: apps/spotify/manifests
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: spotify
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
