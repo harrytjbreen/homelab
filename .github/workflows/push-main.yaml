@@ -7,7 +7,7 @@ on:
     paths:
       - apps/ping-api/**
       - apps/spotify/**
-      - .github/workflows/ping-api-build.yaml
+      - .github/**
 
 jobs:
   ping-api:
