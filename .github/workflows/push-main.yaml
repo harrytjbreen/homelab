@@ -9,7 +9,7 @@ on:
       - .github/workflows/ping-api-build.yaml
 
 jobs:
-  build:
+  ping-api:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -42,3 +42,36 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/ping-api:${{ github.sha }}
             ghcr.io/${{ github.repository_owner }}/ping-api:latest
+
+  spotify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build spotify
+        uses: ./.github/actions/go-build
+        with:
+          workdir: apps/spotify
+          go-version-file: apps/spotify/go.mod
+          run-tests: "true"
+          build-output: bin/spotify
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v5
+        with:
+            context: apps/spotify
+            file: apps/spotify/Dockerfile
+            push: true
+            tags: |
+                ghcr.io/${{ github.repository_owner }}/spotify:${{ github.sha }}
+                ghcr.io/${{ github.repository_owner }}/spotify:latest
