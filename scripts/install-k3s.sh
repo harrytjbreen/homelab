@@ -10,7 +10,6 @@ echo "Installing k3s as: $ROLE"
 if [ "$ROLE" = "server" ]; then
   curl -sfL https://get.k3s.io | sh -s - \
     --write-kubeconfig-mode 644 \
-    --disable traefik
 
 elif [ "$ROLE" = "agent" ]; then
   if [ -z "$K3S_URL" ] || [ -z "$K3S_TOKEN" ]; then
