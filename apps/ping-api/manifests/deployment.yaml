@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ping-api
+  labels:
+    app: ping-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ping-api
+  template:
+    metadata:
+      labels:
+        app: ping-api
+    spec:
+      containers:
+        - name: ping-api
+          image: ping-api:local
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PING_API_ADDR
+              value: ":8080"
+          ports:
+            - name: http
+              containerPort: 8080
