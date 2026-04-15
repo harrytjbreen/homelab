@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: ping-api
-          image: ghcr.io/harrytjbreen/ping-api
+          image: ghcr.io/harrytjbreen/ping-api:latest
           imagePullPolicy: Always
           env:
             - name: PING_API_ADDR
